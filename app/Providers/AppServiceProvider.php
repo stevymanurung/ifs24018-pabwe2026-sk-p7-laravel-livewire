@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        app('livewire')->useScriptTagAttributes(['defer' => true]);
+
         if (config('app.force_https', false) || $this->app->environment('production')) {
             URL::forceScheme('https');
         }

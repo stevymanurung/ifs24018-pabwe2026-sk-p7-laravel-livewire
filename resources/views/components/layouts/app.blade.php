@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kelola inventaris dan stok barang dengan mudah menggunakan StockApp Pro.">
     <title>{{ $title ?? 'Stock Barang Application' }} - PABWE 2026</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
     <style>
         [x-cloak] { display: none !important; }
         html:has(.modal-scroll-lock),

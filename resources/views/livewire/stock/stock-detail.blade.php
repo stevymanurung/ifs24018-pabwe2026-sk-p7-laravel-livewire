@@ -60,7 +60,7 @@
 
     <!-- Cover Stock Section -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
-        <input type="file" wire:model="coverPhoto" id="coverPhotoInput" accept="image/*" class="hidden">
+        <input type="file" wire:model="coverPhoto" id="coverPhotoInput" aria-label="Upload cover stok" accept="image/*" class="hidden">
 
         @if ($stock->cover_image_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($stock->cover_image_path))
             <div class="relative group h-64 sm:h-80 w-full bg-slate-900 overflow-hidden">
@@ -88,8 +88,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h3 class="text-sm font-bold text-slate-800">Tambahkan Cover Gambar untuk Stok Ini</h3>
-                <p class="text-xs text-slate-400 mt-1 max-w-sm">Mendukung format gambar PNG, JPG, GIF hingga ukuran 5MB untuk visualisasi barang.</p>
+                <h2 class="text-sm font-bold text-slate-800">Tambahkan Cover Gambar untuk Stok Ini</h2>
+                <p class="text-xs text-slate-600 mt-1 max-w-sm">Mendukung format gambar PNG, JPG, GIF hingga ukuran 5MB untuk visualisasi barang.</p>
                 
                 <button type="button" onclick="document.getElementById('coverPhotoInput').click()" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-sm transition flex items-center space-x-1.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -113,42 +113,42 @@
         <!-- Metadata Overview Cards -->
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Status Stok</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Status Stok</span>
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ \App\Features\Stock\Enums\StockStatus::tryFrom($stock->status)?->badgeClass() ?? 'bg-slate-100 text-slate-700' }}">
                     {{ \App\Features\Stock\Enums\StockStatus::tryFrom($stock->status)?->label() ?? $stock->status }}
                 </span>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">SKU</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">SKU</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->sku ?: '-' }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Quantity</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Quantity</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->quantity }} {{ $stock->unit }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Min. Stok</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Min. Stok</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->min_stock }} {{ $stock->unit }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Harga</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Harga</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->price !== null ? 'Rp '.number_format((float) $stock->price, 0, ',', '.') : '-' }}
                 </div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Terakhir Diperbarui</span>
+                <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider block mb-1">Terakhir Diperbarui</span>
                 <div class="text-sm font-semibold text-slate-800">
                     {{ $stock->updated_at ? $stock->updated_at->format('d M Y H:i') : '-' }}
                 </div>
@@ -186,10 +186,10 @@
                     <div x-ref="viewerContainer"></div>
                 </div>
             @else
-                <div class="py-12 text-center text-slate-400">
+                <div class="py-12 text-center text-slate-600">
                     <svg class="w-10 h-10 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     <p class="text-sm font-medium text-slate-600">Belum ada deskripsi untuk stok ini</p>
-                    <p class="text-xs text-slate-400 mt-1">Tambahkan catatan, langkah kerja, atau daftar checklist dengan Toast UI Editor.</p>
+                    <p class="text-xs text-slate-600 mt-1">Tambahkan catatan, langkah kerja, atau daftar checklist dengan Toast UI Editor.</p>
                     <button wire:click="openEditModal" class="mt-4 px-3.5 py-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
                         + Tambahkan Deskripsi Sekarang
                     </button>
@@ -208,7 +208,7 @@
             <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 max-h-[90vh] overflow-hidden flex flex-col">
                 <div class="flex items-center justify-between px-6 py-4 bg-blue-600">
                     <div>
-                        <h3 class="text-lg font-bold text-white">Ubah Data Stok</h3>
+                        <h2 class="text-lg font-bold text-white">Ubah Data Stok</h2>
                         <p class="text-xs text-blue-100">Edit nama, SKU, jumlah, harga, status, dan deskripsi barang</p>
                     </div>
                     <button type="button" @click="show = false; $wire.closeEditModal()" class="text-white/80 hover:text-white transition">
@@ -220,43 +220,43 @@
                     <div class="space-y-5 px-6 py-5 overflow-y-auto flex-1">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-800 mb-1">Nama Barang</label>
-                                <input wire:model="name" type="text" required class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <label for="stock-name" class="block text-sm font-semibold text-slate-800 mb-1">Nama Barang</label>
+                                <input id="stock-name" wire:model="name" type="text" required class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @error('name') <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span> @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-800 mb-1">SKU</label>
-                                <input wire:model="sku" type="text"  class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <label for="stock-sku" class="block text-sm font-semibold text-slate-800 mb-1">SKU</label>
+                                <input id="stock-sku" wire:model="sku" type="text"  class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @error('sku') <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span> @enderror
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-800 mb-1">Quantity</label>
-                                <input wire:model="quantity" type="number" min="0" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <label for="stock-quantity" class="block text-sm font-semibold text-slate-800 mb-1">Quantity</label>
+                                <input id="stock-quantity" wire:model="quantity" type="number" min="0" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @error('quantity') <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span> @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-800 mb-1">Satuan</label>
-                                <input wire:model="unit" type="text"  class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <label for="stock-unit" class="block text-sm font-semibold text-slate-800 mb-1">Satuan</label>
+                                <input id="stock-unit" wire:model="unit" type="text"  class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @error('unit') <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span> @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-800 mb-1">Harga (Rp)</label>
-                                <input wire:model="price" type="number" min="0" step="any" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <label for="stock-price" class="block text-sm font-semibold text-slate-800 mb-1">Harga (Rp)</label>
+                                <input id="stock-price" wire:model="price" type="number" min="0" step="any" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @error('price') <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span> @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-800 mb-1">Min. Stok</label>
-                                <input wire:model="minStock" type="number" min="0" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <label for="stock-min-stock" class="block text-sm font-semibold text-slate-800 mb-1">Min. Stok</label>
+                                <input id="stock-min-stock" wire:model="minStock" type="number" min="0" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @error('minStock') <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span> @enderror
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-slate-800 mb-1">Status Stok</label>
-                            <select wire:model="status" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                            <label for="stock-status" class="block text-sm font-semibold text-slate-800 mb-1">Status Stok</label>
+                            <select id="stock-status" wire:model="status" class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                                 @foreach ($statuses as $st)
                                     <option value="{{ $st->value }}">{{ $st->label() }}</option>
                                 @endforeach
@@ -267,8 +267,8 @@
                         <!-- Deskripsi Barang with Toast UI Editor -->
                         <div>
                             <div class="flex items-center justify-between mb-1">
-                                <label class="block text-sm font-semibold text-slate-800">Deskripsi Barang (Toast UI Editor)</label>
-                                <span class="text-xs text-slate-400">Markdown & WYSIWYG</span>
+                                <span id="stock-description-label" class="block text-sm font-semibold text-slate-800">Deskripsi Barang (Toast UI Editor)</span>
+                                <span class="text-xs text-slate-600">Markdown & WYSIWYG</span>
                             </div>
 
                             <div wire:ignore
@@ -297,6 +297,7 @@
                                          });
                                      }
                                  }"
+                                 role="group" aria-labelledby="stock-description-label"
                                  class="rounded-xl border border-slate-300 overflow-hidden bg-white">
                                 <div x-ref="detailEditorContainer"></div>
                             </div>
@@ -338,7 +339,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white">Konfirmasi Hapus Stok</h3>
+                        <h2 class="text-base font-bold text-white">Konfirmasi Hapus Stok</h2>
                         <p class="text-xs text-rose-100">Tindakan ini tidak dapat dibatalkan</p>
                     </div>
                 </div>
@@ -381,7 +382,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white">Konfirmasi Hapus Cover</h3>
+                        <h2 class="text-base font-bold text-white">Konfirmasi Hapus Cover</h2>
                         <p class="text-xs text-rose-100">Gambar cover akan dihapus dari stok ini</p>
                     </div>
                 </div>

@@ -6,7 +6,7 @@
         </div>
 
         <div class="w-full sm:w-72 relative">
-            <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari nama atau email..." class="w-full pl-3.5 pr-9 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+            <input wire:model.live.debounce.300ms="search" type="text" aria-label="Cari pengguna" placeholder="Cari nama atau email..." class="w-full pl-3.5 pr-9 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
             <div wire:loading wire:target="search" class="absolute right-3 top-2.5">
                 <svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -34,7 +34,7 @@
                         <tr class="hover:bg-slate-50/80 transition">
                             <td class="py-4 px-6">
                                 <div class="font-semibold text-slate-900">{{ $user->name }}</div>
-                                <div class="text-xs text-slate-400 font-mono">&#64;{{ $user->username }}</div>
+                                <div class="text-xs text-slate-600 font-mono">&#64;{{ $user->username }}</div>
                             </td>
                             <td class="py-4 px-6 text-slate-600">
                                 {{ $user->email }}
@@ -76,4 +76,3 @@
         </div>
     </div>
 </div>
-

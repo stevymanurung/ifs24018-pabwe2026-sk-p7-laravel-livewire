@@ -31,7 +31,7 @@
                 x-transition:leave-start="opacity-100 scale-100"
                 x-transition:leave-end="opacity-0 scale-95"
                 class="absolute right-0 z-30 mt-2 w-56 origin-top-right rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl shadow-slate-200/70">
-                <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Aksi Cepat</div>
+                <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">Aksi Cepat</div>
 
                 <button type="button" :disabled="!!loading"
                     @click="
@@ -60,7 +60,7 @@
                 </button>
 
                 <div class="my-1.5 border-t border-slate-100"></div>
-                <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Spreadsheet</div>
+                <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">Spreadsheet</div>
 
                 <button type="button" :disabled="!!loading"
                     @click="
@@ -95,7 +95,7 @@
     <div
         class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div class="w-full sm:w-72 relative">
-            <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari nama, SKU, atau deskripsi..."
+            <input wire:model.live.debounce.300ms="search" type="text" aria-label="Cari stok" placeholder="Cari nama, SKU, atau deskripsi..."
                 class="w-full pl-3.5 pr-9 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <div wire:loading wire:target="search,statusFilter" class="absolute right-3 top-2.5">
                 <svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24">
@@ -107,8 +107,8 @@
         </div>
 
         <div class="flex items-center space-x-3 w-full sm:w-auto">
-            <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status:</label>
-            <select wire:model.live="statusFilter"
+            <label for="stock-status-filter" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status:</label>
+            <select id="stock-status-filter" wire:model.live="statusFilter"
                 class="px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                 <option value="">Semua Status</option>
                 @foreach ($statuses as $status)
@@ -140,7 +140,7 @@
                                 <img src="{{ $stock->coverImageUrl() }}" alt="Cover {{ $stock->name }}"
                                     class="w-12 h-12 rounded-lg object-cover border border-slate-200 flex-shrink-0">
                             @else
-                                <span class="w-12 h-12 rounded-lg bg-slate-100 text-slate-400 flex items-center justify-center flex-shrink-0">
+                                <span class="w-12 h-12 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                                 </span>
                             @endif
@@ -201,7 +201,7 @@
                                 x-transition:leave-start="opacity-100 scale-100"
                                 x-transition:leave-end="opacity-0 scale-95"
                                 class="absolute right-0 z-20 mt-1.5 w-48 origin-top-right rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl shadow-slate-200/70">
-                                <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Tindakan</div>
+                                <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">Tindakan</div>
 
                                 <a href="{{ route('stocks.show', $stock->id) }}" @click="open = false"
                                     class="flex w-full items-center gap-2.5 px-3 py-2 text-sm font-semibold text-sky-700 hover:bg-sky-50 transition">
@@ -272,9 +272,9 @@
             class="modal-scroll-lock fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain p-4 bg-slate-900/50 backdrop-blur-sm">
             <div class="bg-white rounded-2xl max-w-2xl w-full shadow-xl border border-slate-200 max-h-[90vh] overflow-hidden flex flex-col">
                 <div class="flex items-center justify-between px-6 py-4 bg-blue-600">
-                    <h3 class="text-lg font-bold text-white">
+                    <h2 class="text-lg font-bold text-white">
                         {{ $editingStockId ? 'Edit Stok' : 'Tambah Stok Baru' }}
-                    </h3>
+                    </h2>
                     <button type="button" @click="show = false; $wire.closeFormModal()" class="text-white/80 hover:text-white transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -287,16 +287,16 @@
                     <div class="space-y-4 px-6 py-5 overflow-y-auto flex-1">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Nama Barang</label>
-                                <input wire:model="formName" type="text" required
+                                <label for="form-stock-name" class="block text-sm font-medium text-slate-700 mb-1">Nama Barang</label>
+                                <input id="form-stock-name" wire:model="formName" type="text" required
                                     class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white" placeholder="Contoh: Beras Premium 5kg">
                                 @error('formName')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">SKU</label>
-                                <input wire:model="formSku" type="text" 
+                                <label for="form-stock-sku" class="block text-sm font-medium text-slate-700 mb-1">SKU</label>
+                                <input id="form-stock-sku" wire:model="formSku" type="text"
                                     class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white" placeholder="Contoh: BRS-001">
                                 @error('formSku')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
@@ -306,8 +306,8 @@
 
                         <div>
                             <div class="flex items-center justify-between mb-1">
-                                <label class="block text-sm font-medium text-slate-700">Deskripsi (Toast UI Editor)</label>
-                                <span class="text-xs text-slate-400">Markdown & WYSIWYG</span>
+                                <span id="form-stock-description-label" class="block text-sm font-medium text-slate-700">Deskripsi (Toast UI Editor)</span>
+                                <span class="text-xs text-slate-600">Markdown & WYSIWYG</span>
                             </div>
 
                             <div wire:ignore
@@ -336,6 +336,7 @@
                                          });
                                      }
                                  }"
+                                 role="group" aria-labelledby="form-stock-description-label"
                                  class="rounded-xl border border-slate-300 overflow-hidden bg-white">
                                 <div x-ref="formEditorContainer"></div>
                             </div>
@@ -346,32 +347,32 @@
 
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Quantity</label>
-                                <input wire:model="formQuantity" type="number" min="0"
+                                <label for="form-stock-quantity" class="block text-sm font-medium text-slate-700 mb-1">Quantity</label>
+                                <input id="form-stock-quantity" wire:model="formQuantity" type="number" min="0"
                                     class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white" placeholder="">
                                 @error('formQuantity')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Satuan</label>
-                                <input wire:model="formUnit" type="text" 
+                                <label for="form-stock-unit" class="block text-sm font-medium text-slate-700 mb-1">Satuan</label>
+                                <input id="form-stock-unit" wire:model="formUnit" type="text"
                                     class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white" placeholder="pcs">
                                 @error('formUnit')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Harga (Rp)</label>
-                                <input wire:model="formPrice" type="number" min="0" step="any"
+                                <label for="form-stock-price" class="block text-sm font-medium text-slate-700 mb-1">Harga (Rp)</label>
+                                <input id="form-stock-price" wire:model="formPrice" type="number" min="0" step="any"
                                     class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white" placeholder="">
                                 @error('formPrice')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Min. Stok</label>
-                                <input wire:model="formMinStock" type="number" min="0"
+                                <label for="form-stock-min-stock" class="block text-sm font-medium text-slate-700 mb-1">Min. Stok</label>
+                                <input id="form-stock-min-stock" wire:model="formMinStock" type="number" min="0"
                                     class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white" placeholder="">
                                 @error('formMinStock')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
@@ -380,14 +381,14 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
-                            <select wire:model="formStatus"
+                            <label for="form-stock-status" class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                            <select id="form-stock-status" wire:model="formStatus"
                                 class="w-full px-3.5 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white">
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status->value }}">{{ $status->label() }}</option>
                                 @endforeach
                             </select>
-                            <p class="text-xs text-slate-400 mt-1">Tombol +/- pada daftar akan menyesuaikan status otomatis berdasarkan quantity dan min. stok.</p>
+                            <p class="text-xs text-slate-600 mt-1">Tombol +/- pada daftar akan menyesuaikan status otomatis berdasarkan quantity dan min. stok.</p>
                             @error('formStatus')
                                 <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
                             @enderror
@@ -426,7 +427,7 @@
             class="modal-scroll-lock fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain p-4 bg-slate-900/50 backdrop-blur-sm">
             <div class="bg-white rounded-2xl max-w-md w-full shadow-xl border border-slate-200 overflow-hidden flex flex-col">
                 <div class="flex items-center justify-between px-6 py-4 bg-emerald-600">
-                    <h3 class="text-lg font-bold text-white">Import Stok dari File Excel</h3>
+                    <h2 class="text-lg font-bold text-white">Import Stok dari File Excel</h2>
                     <button type="button" @click="show = false; $wire.closeImportModal()" class="text-white/80 hover:text-white transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -438,9 +439,9 @@
                 <form wire:submit.prevent="importExcel" class="flex flex-col">
                     <div class="space-y-4 px-6 py-5">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Pilih File (.xlsx, .xls,
+                            <label for="import-stock-file" class="block text-sm font-medium text-slate-700 mb-1">Pilih File (.xlsx, .xls,
                                 .csv)</label>
-                            <input wire:model="importFile" type="file" accept=".xlsx,.xls,.csv"
+                            <input id="import-stock-file" wire:model="importFile" type="file" accept=".xlsx,.xls,.csv"
                                 class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
                                 required>
                             @error('importFile')
@@ -495,7 +496,7 @@
                             </svg>
                         </span>
                         <div>
-                            <h3 class="text-lg font-bold text-white">Generate Stok Otomatis dengan AI</h3>
+                            <h2 class="text-lg font-bold text-white">Generate Stok Otomatis dengan AI</h2>
                             <p class="text-xs text-purple-100">Minta AI membuatkan beberapa item stok barang sesuai
                                 kebutuhan Anda</p>
                         </div>
@@ -518,9 +519,9 @@
 
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Permintaan Anda /
+                            <label for="ai-stock-prompt" class="block text-sm font-medium text-slate-700 mb-1">Permintaan Anda /
                                 Prompt</label>
-                            <textarea wire:model="aiPrompt" rows="3"
+                            <textarea id="ai-stock-prompt" wire:model="aiPrompt" rows="3"
                                 class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
                                 placeholder="Contoh: Buatkan 5 item stok sembako untuk warung kelontong..."></textarea>
                             @error('aiPrompt')
@@ -531,11 +532,11 @@
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                             <div>
                                 <div class="flex items-center space-x-2">
-                                    <label class="text-xs font-medium text-slate-600">Jumlah item:</label>
-                                    <input wire:model="aiCount" type="number" min="1"
+                                    <label for="ai-stock-count" class="text-xs font-medium text-slate-600">Jumlah item:</label>
+                                    <input id="ai-stock-count" wire:model="aiCount" type="number" min="1"
                                         class="w-20 px-2.5 py-1 text-xs rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium text-center"
                                         placeholder="3">
-                                    <span class="text-xs text-slate-400">item</span>
+                                    <span class="text-xs text-slate-600">item</span>
                                 </div>
                                 @error('aiCount')
                                     <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
@@ -573,7 +574,7 @@
                     <!-- AI Preview Results -->
                     @if (!empty($aiGeneratedItems))
                         <div class="pt-4 border-t border-slate-200">
-                            <h4 class="text-sm font-bold text-slate-800 mb-2">Pilih item stok yang ingin ditambahkan:</h4>
+                            <h3 class="text-sm font-bold text-slate-800 mb-2">Pilih item stok yang ingin ditambahkan:</h3>
                             <div class="space-y-2 max-h-60 overflow-y-auto">
                                 @foreach ($aiGeneratedItems as $index => $item)
                                     <label
@@ -584,7 +585,7 @@
                                         <div class="flex-1 text-xs">
                                             <div class="flex items-center justify-between">
                                                 <span class="font-bold text-slate-900">{{ $item['name'] }}</span>
-                                                <span class="text-slate-400">{{ $item['quantity'] }} {{ $item['unit'] }}@if (!empty($item['sku'])) &middot; {{ $item['sku'] }}@endif</span>
+                                                <span class="text-slate-600">{{ $item['quantity'] }} {{ $item['unit'] }}@if (!empty($item['sku'])) &middot; {{ $item['sku'] }}@endif</span>
                                             </div>
                                             @if (!empty($item['description']))
                                                 <p class="text-slate-600 mt-1">{{ $item['description'] }}</p>
@@ -636,7 +637,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white">Konfirmasi Hapus Stok</h3>
+                        <h2 class="text-base font-bold text-white">Konfirmasi Hapus Stok</h2>
                         <p class="text-xs text-rose-100">Tindakan ini tidak dapat dibatalkan</p>
                     </div>
                 </div>

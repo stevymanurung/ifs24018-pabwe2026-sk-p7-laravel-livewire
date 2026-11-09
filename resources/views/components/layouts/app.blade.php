@@ -6,7 +6,11 @@
     <meta name="description" content="Kelola inventaris dan stok barang dengan mudah menggunakan StockApp Pro.">
     <title>{{ $title ?? 'Stock Barang Application' }} - PABWE 2026</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    @vite('resources/css/app.css')
+    @if (\Illuminate\Support\Facades\Vite::isRunningHot())
+        @vite('resources/css/app.css')
+    @else
+        <link rel="stylesheet" href="{{ route('assets.app-css', ['v' => basename(parse_url(\Illuminate\Support\Facades\Vite::asset('resources/css/app.css'), PHP_URL_PATH))]) }}">
+    @endif
     <style>
         [x-cloak] { display: none !important; }
         html:has(.modal-scroll-lock),
@@ -56,7 +60,7 @@
                     @if (auth()->user()->profile_photo_path && \Illuminate\Support\Facades\Storage::disk('public')->exists(auth()->user()->profile_photo_path))
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(auth()->user()->profile_photo_path) }}" alt="{{ auth()->user()->name }}" class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0 border border-slate-200">
                     @else
-                        <div class="w-10 h-10 rounded-full {{ auth()->user()->isAdmin() ? 'bg-purple-600 text-purple-100' : 'bg-blue-600 text-blue-100' }} flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
+                        <div class="w-10 h-10 rounded-full {{ auth()->user()->isAdmin() ? 'bg-purple-600 text-white' : 'bg-blue-600 text-white' }} flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
                             {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
                         </div>
                     @endif

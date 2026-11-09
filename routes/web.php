@@ -5,9 +5,35 @@ use App\Features\Admin\Livewire\UserList;
 use App\Features\Auth\Livewire\Login;
 use App\Features\Auth\Livewire\Register;
 use App\Features\Stock\Livewire\StockList;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Http\Request;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+Route::get('/cached-assets/app.css', function (Request $request) {
+    $assetUrl = Vite::asset('resources/css/app.css');
+    $assetPath = parse_url($assetUrl, PHP_URL_PATH);
+    abort_unless(is_string($assetPath), 404);
+
+    $assetName = basename($assetPath);
+    abort_unless(hash_equals($assetName, (string) $request->query('v')), 404);
+
+    $file = public_path(ltrim($assetPath, '/'));
+    abort_unless(is_file($file), 404);
+
+    return response()->file($file, [
+        'Cache-Control' => 'public, max-age=31536000, immutable',
+        'Content-Type' => 'text/css; charset=UTF-8',
+        'Expires' => now()->addYear()->toRfc7231String(),
+    ]);
+})->withoutMiddleware([
+    PreventRequestForgery::class,
+    ShareErrorsFromSession::class,
+    StartSession::class,
+])->name('assets.app-css');
 
 Route::middleware(['throttle:1000-per-second'])->group(function () {
     // Root Redirection

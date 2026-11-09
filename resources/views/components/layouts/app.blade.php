@@ -11,6 +11,7 @@
     @else
         <link rel="stylesheet" href="{{ route('assets.app-css', ['v' => basename(parse_url(\Illuminate\Support\Facades\Vite::asset('resources/css/app.css'), PHP_URL_PATH))]) }}">
     @endif
+    @vite('resources/js/app.js')
     <style>
         [x-cloak] { display: none !important; }
         html:has(.modal-scroll-lock),
@@ -210,6 +211,6 @@
         </div>
     @endauth
 
-    @livewireScripts
+    @livewireScriptConfig
 </body>
 </html>

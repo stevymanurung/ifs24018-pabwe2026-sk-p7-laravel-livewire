@@ -507,17 +507,11 @@ pipeline {
                     echo ""
                     echo "=== Request Redeployment ==="
 
-                    ['URL_REDEPLOY', 'URL_PROGRESS', 'DEPLOY_TOKEN', 'WEBSITE_ID'].each { name ->
-                        if (!env[name]?.trim()) {
-                            error("Required Jenkins environment variable is missing: ${name}")
-                        }
-                    }
-
                     def redeployResponse = sh(
                         script: '''
-                            set +x
+                            set -e
 
-                            curl -sS -w '\\n%{http_code}' \
+                            curl -sS --fail-with-body \
                                 -X POST "$URL_REDEPLOY" \
                                 -H "Content-Type: application/json" \
                                 -d "{
@@ -528,28 +522,10 @@ pipeline {
                                 }"
                         ''',
                         returnStdout: true
-                    ).replaceFirst(/\r?\n$/, '')
+                    ).trim()
 
-                    def redeployStatusSeparator = redeployResponse.lastIndexOf('\n')
-                    if (redeployStatusSeparator < 0) {
-                        error("Redeploy API did not return an HTTP status: ${env.URL_REDEPLOY}")
-                    }
-
-                    def redeployStatus = redeployResponse.substring(redeployStatusSeparator + 1)
-                    redeployResponse = redeployResponse.substring(0, redeployStatusSeparator).trim()
-                    def safeRedeployResponse = env.DEPLOY_TOKEN
-                        ? redeployResponse.replace(env.DEPLOY_TOKEN, '[REDACTED]')
-                        : redeployResponse
-
-                    if (!(redeployStatus ==~ /2\d\d/)) {
-                        error(
-                            "Redeploy API returned HTTP ${redeployStatus} from ${env.URL_REDEPLOY}. " +
-                            "Response: ${safeRedeployResponse ?: '(empty response body)'}"
-                        )
-                    }
-
-                    echo "Redeploy API HTTP ${redeployStatus}:"
-                    echo safeRedeployResponse
+                    echo "Redeploy Response:"
+                    echo redeployResponse
 
                     // ==================================================
                     // 2. POLLING DEPLOYMENT PROGRESS
@@ -581,9 +557,9 @@ pipeline {
 
                         def progressResponse = sh(
                             script: '''
-                                set +x
+                                set -e
 
-                                curl -sS -w '\\n%{http_code}' \
+                                curl -sS --fail-with-body \
                                     -X POST "$URL_PROGRESS" \
                                     -H "Content-Type: application/json" \
                                     -d "{
@@ -592,28 +568,10 @@ pipeline {
                                     }"
                             ''',
                             returnStdout: true
-                        ).replaceFirst(/\r?\n$/, '')
+                        ).trim()
 
-                        def progressStatusSeparator = progressResponse.lastIndexOf('\n')
-                        if (progressStatusSeparator < 0) {
-                            error("Progress API did not return an HTTP status: ${env.URL_PROGRESS}")
-                        }
-
-                        def progressStatus = progressResponse.substring(progressStatusSeparator + 1)
-                        progressResponse = progressResponse.substring(0, progressStatusSeparator).trim()
-                        def safeProgressResponse = env.DEPLOY_TOKEN
-                            ? progressResponse.replace(env.DEPLOY_TOKEN, '[REDACTED]')
-                            : progressResponse
-
-                        if (!(progressStatus ==~ /2\d\d/)) {
-                            error(
-                                "Progress API returned HTTP ${progressStatus} from ${env.URL_PROGRESS}. " +
-                                "Response: ${safeProgressResponse ?: '(empty response body)'}"
-                            )
-                        }
-
-                        echo "Progress API HTTP ${progressStatus}:"
-                        echo safeProgressResponse
+                        echo "Progress Response:"
+                        echo progressResponse
 
                         // ==================================================
                         // PARSE JSON
